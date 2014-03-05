@@ -137,6 +137,9 @@ public class MainActivity extends CameraActivity
             case 4:
                 mTitle = getString(R.string.title_section4);
                 break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                break;
         }
     }
 

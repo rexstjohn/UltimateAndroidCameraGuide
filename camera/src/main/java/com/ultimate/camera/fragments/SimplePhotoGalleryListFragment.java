@@ -95,7 +95,6 @@ public class SimplePhotoGalleryListFragment extends BaseFragment implements AbsL
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
         View view = null;
         view = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
 

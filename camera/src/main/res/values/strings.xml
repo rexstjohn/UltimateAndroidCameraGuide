@@ -34,5 +34,6 @@
     <string name="title_section2">Photo Gallery Using Loaders</string>
     <string name="title_section3">Image Picker</string>
     <string name="title_section4">Native Camera</string>
+    <string name="title_section5">Horizontal Gallery</string>
 
 </resources>
