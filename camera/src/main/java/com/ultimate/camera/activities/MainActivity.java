@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import com.ultimate.camera.NavigationDrawerFragment;
 import com.ultimate.camera.R;
 import com.ultimate.camera.fragments.BaseFragment;
+import com.ultimate.camera.fragments.HorizontalPhotoGalleryFragment;
 import com.ultimate.camera.fragments.NativeCameraFragment;
 import com.ultimate.camera.fragments.SimpleAndroidImagePickerFragment;
 import com.ultimate.camera.fragments.SimpleCameraIntentFragment;
@@ -56,6 +57,7 @@ public class MainActivity extends CameraActivity
     public static final int SIMPLE_PHOTO_GALLERY_FRAGMENT = 1;
     public static final int SIMPLE_PHOTO_PICKER_FRAGMENT = 2;
     public static final int NATIVE_CAMERA_FRAGMENT = 3;
+    public static final int HORIZONTAL_GALLERY_FRAGMENT = 4;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -105,6 +107,10 @@ public class MainActivity extends CameraActivity
             }
             case NATIVE_CAMERA_FRAGMENT: {
                 targetFragment = NativeCameraFragment.newInstance(position + 1);
+                break;
+            }
+            case HORIZONTAL_GALLERY_FRAGMENT:{
+                targetFragment = HorizontalPhotoGalleryFragment.newInstance(position + 1);
                 break;
             }
             default:
