@@ -22,32 +22,25 @@
 
 package com.ultimate.camera.activities;
 
-import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.ultimate.camera.NavigationDrawerFragment;
 import com.ultimate.camera.R;
 import com.ultimate.camera.fragments.BaseFragment;
+import com.ultimate.camera.fragments.NativeCameraFragment;
+import com.ultimate.camera.fragments.SimpleAndroidImagePickerFragment;
 import com.ultimate.camera.fragments.SimpleCameraIntentFragment;
 import com.ultimate.camera.fragments.SimplePhotoGalleryListFragment;
 
+/**
+ * Created by Rex St. John (on behalf of AirPair.com) on 3/4/14.
+ */
 public class MainActivity extends CameraActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, BaseFragment.OnFragmentInteractionListener {
 
@@ -61,6 +54,8 @@ public class MainActivity extends CameraActivity
      */
     public static final int SIMPLE_CAMERA_INTENT_FRAGMENT = 0;
     public static final int SIMPLE_PHOTO_GALLERY_FRAGMENT = 1;
+    public static final int SIMPLE_PHOTO_PICKER_FRAGMENT = 2;
+    public static final int NATIVE_CAMERA_FRAGMENT = 3;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -95,13 +90,21 @@ public class MainActivity extends CameraActivity
         BaseFragment targetFragment = null;
 
         // Populate the fragment
-        switch (position){
-            case SIMPLE_CAMERA_INTENT_FRAGMENT:{
+        switch (position) {
+            case SIMPLE_CAMERA_INTENT_FRAGMENT: {
                 targetFragment = SimpleCameraIntentFragment.newInstance(position + 1);
                 break;
             }
-            case SIMPLE_PHOTO_GALLERY_FRAGMENT:{
+            case SIMPLE_PHOTO_GALLERY_FRAGMENT: {
                 targetFragment = SimplePhotoGalleryListFragment.newInstance(position + 1);
+                break;
+            }
+            case SIMPLE_PHOTO_PICKER_FRAGMENT: {
+                targetFragment = SimpleAndroidImagePickerFragment.newInstance(position + 1);
+                break;
+            }
+            case NATIVE_CAMERA_FRAGMENT: {
+                targetFragment = NativeCameraFragment.newInstance(position + 1);
                 break;
             }
             default:
@@ -124,6 +127,9 @@ public class MainActivity extends CameraActivity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
                 break;
         }
     }

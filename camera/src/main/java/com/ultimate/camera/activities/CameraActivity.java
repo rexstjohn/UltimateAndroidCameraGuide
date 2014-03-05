@@ -31,13 +31,13 @@ import android.support.v7.app.ActionBarActivity;
  * on saving it's resulting file and URI. This activity saves this information to the bundle
  * and retrieves it on resume. This is necessary because when the Android external camera starts,
  * the file path anf URI get collected and won't be available on resume, resulting in a crash.
- *
+ * <p/>
  * Samsung devices, in particular may crash if you don't do this:
  * Reference: http://stackoverflow.com/questions/8248327/my-android-camera-uri-is-returning-a-null-value-but-the-samsung-fix-is-in-place
- *
+ * <p/>
  * Created by Rex St. John (on behalf of AirPair.com) on 3/4/14.
  */
-public class CameraActivity  extends ActionBarActivity {
+public class CameraActivity extends ActionBarActivity {
 
     // Storage for camera image URI components
     private final static String CAPTURED_PHOTO_PATH_KEY = "mCurrentPhotoPath";
@@ -50,10 +50,10 @@ public class CameraActivity  extends ActionBarActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         if (mCurrentPhotoPath != null) {
-            savedInstanceState.putString(CAPTURED_PHOTO_PATH_KEY,mCurrentPhotoPath);
+            savedInstanceState.putString(CAPTURED_PHOTO_PATH_KEY, mCurrentPhotoPath);
         }
-        if(mCapturedImageURI != null){
-            savedInstanceState.putString(CAPTURED_PHOTO_URI_KEY,mCapturedImageURI.toString());
+        if (mCapturedImageURI != null) {
+            savedInstanceState.putString(CAPTURED_PHOTO_URI_KEY, mCapturedImageURI.toString());
         }
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -63,7 +63,7 @@ public class CameraActivity  extends ActionBarActivity {
         if (savedInstanceState.containsKey(CAPTURED_PHOTO_PATH_KEY)) {
             mCurrentPhotoPath = savedInstanceState.getString(CAPTURED_PHOTO_PATH_KEY);
         }
-        if(savedInstanceState.containsKey(CAPTURED_PHOTO_URI_KEY)){
+        if (savedInstanceState.containsKey(CAPTURED_PHOTO_URI_KEY)) {
             mCapturedImageURI = Uri.parse(savedInstanceState.getString(CAPTURED_PHOTO_URI_KEY));
         }
         super.onRestoreInstanceState(savedInstanceState);

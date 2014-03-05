@@ -32,6 +32,7 @@
     <!-- Fragment section titles -->
     <string name="title_section1">Simple Camera Intent</string>
     <string name="title_section2">Photo Gallery Using Loaders</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section3">Image Picker</string>
+    <string name="title_section4">Native Camera</string>
 
 </resources>
