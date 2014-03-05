@@ -73,6 +73,19 @@ public class SimplePhotoGalleryListFragment extends BaseFragment implements AbsL
         super();
     }
 
+    /**
+     * Static factory method
+     * @param sectionNumber
+     * @return
+     */
+    public static SimplePhotoGalleryListFragment newInstance(int sectionNumber) {
+        SimplePhotoGalleryListFragment fragment = new SimplePhotoGalleryListFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

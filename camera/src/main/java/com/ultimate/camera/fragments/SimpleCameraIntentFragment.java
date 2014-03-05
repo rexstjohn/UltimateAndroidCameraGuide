@@ -80,6 +80,19 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
     }
 
     /**
+     * Static factory method
+     * @param sectionNumber
+     * @return
+     */
+    public static SimpleCameraIntentFragment newInstance(int sectionNumber) {
+        SimpleCameraIntentFragment fragment = new SimpleCameraIntentFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
      * OnCreateView fragment override
      * @param inflater
      * @param container

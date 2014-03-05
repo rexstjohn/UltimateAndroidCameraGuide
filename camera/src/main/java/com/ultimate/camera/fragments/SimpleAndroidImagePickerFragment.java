@@ -64,6 +64,19 @@ public class SimpleAndroidImagePickerFragment extends BaseFragment implements Bu
     }
 
     /**
+     * Static factory method
+     * @param sectionNumber
+     * @return
+     */
+    public static SimpleAndroidImagePickerFragment newInstance(int sectionNumber) {
+        SimpleAndroidImagePickerFragment fragment = new SimpleAndroidImagePickerFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
      * OnCreateView fragment override
      * @param inflater
      * @param container

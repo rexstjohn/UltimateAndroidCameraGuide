@@ -49,6 +49,19 @@ public class HorizontalPhotoGalleryFragment extends SimplePhotoGalleryListFragme
     }
 
     /**
+     * Static factory method
+     * @param sectionNumber
+     * @return
+     */
+    public static HorizontalPhotoGalleryFragment newInstance(int sectionNumber) {
+        HorizontalPhotoGalleryFragment fragment = new HorizontalPhotoGalleryFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
      * Create View!
      * @param inflater
      * @param container

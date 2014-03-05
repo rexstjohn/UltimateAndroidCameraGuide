@@ -69,6 +69,19 @@ public class NativeCameraFragment extends BaseFragment {
     }
 
     /**
+     * Static factory method
+     * @param sectionNumber
+     * @return
+     */
+    public static NativeCameraFragment newInstance(int sectionNumber) {
+        NativeCameraFragment fragment = new NativeCameraFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
      * OnCreateView fragment override
      * @param inflater
      * @param container

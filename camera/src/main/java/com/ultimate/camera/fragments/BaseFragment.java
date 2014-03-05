@@ -40,14 +40,6 @@ public class BaseFragment extends Fragment {
         //
     }
 
-    public static BaseFragment newInstance(int sectionNumber) {
-        BaseFragment fragment = new BaseFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     /**
      * This interface must be implemented by activities that contain this
      * mFragment to allow an interaction in this mFragment to be communicated

@@ -65,6 +65,8 @@ import android.widget.Checkable;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
 
+import com.ultimate.camera.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
