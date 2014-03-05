@@ -97,14 +97,13 @@ public class PhotoGalleryImageProvider {
     private static Uri uriToFullImage(Cursor thumbnailsCursor, Context context){
         String imageId = thumbnailsCursor.getString(thumbnailsCursor.getColumnIndex(MediaStore.Images.Thumbnails.IMAGE_ID));
 
-        // Request image related to this thumbnai
+        // Request image related to this thumbnail
         String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
         Cursor imagesCursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, filePathColumn, MediaStore.Images.Media._ID + "=?", new String[]{imageId}, null);
 
         if (imagesCursor != null && imagesCursor.moveToFirst()) {
-            // Your file-path will be here
-            String filePath = imagesCursor.getString(imagesCursor.getColumnIndex(filePathColumn[0]));
+            int columnIndex = imagesCursor.getColumnIndex(filePathColumn[0]);
+            String filePath = imagesCursor.getString(columnIndex);
             imagesCursor.close();
             return Uri.parse(filePath);
         } else {

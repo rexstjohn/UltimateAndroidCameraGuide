@@ -25,6 +25,9 @@ package com.ultimate.camera.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -67,6 +70,7 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
 
     // Image view for showing our image.
     private ImageView mImageView;
+    private ImageView mThumbnailImageView;
 
     /**
      * Default empty constructor.
@@ -89,7 +93,8 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
         view = inflater.inflate(R.layout.fragment_simple_camera_intent, container, false);
 
         // Set the image view
-        mImageView = (ImageView)view.findViewById(R.id.imageView);
+        mImageView = (ImageView)view.findViewById(R.id.imageViewFullSized);
+        mThumbnailImageView = (ImageView)view.findViewById(R.id.imageViewThumbnail);
         Button takePictureButton = (Button)view.findViewById(R.id.button);
 
         // Set OnItemClickListener so we can be notified on button clicks
@@ -102,6 +107,17 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
      * Start the camera by dispatching a camera intent.
      */
     protected void dispatchTakePictureIntent() {
+
+        // Check if there is a camera.
+        Context context = getActivity();
+        PackageManager packageManager = context.getPackageManager();
+        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            Toast.makeText(getActivity(), "This device does not have a camera.", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
+        // Camera exists? Then proceed...
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         // Ensure that there's a camera activity to handle the intent
@@ -138,20 +154,18 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             addPhotoToGallery();
             CameraActivity activity = (CameraActivity)getActivity();
-            handleImageFileCaptured(activity.getCapturedImageURI());
+
+            // Show the thumbnail.
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mThumbnailImageView.setImageBitmap(imageBitmap);
+
+            // Show the full sized image.
+            setFullImageFromFilePath(activity.getCurrentPhotoPath());
         } else {
             Toast.makeText(getActivity(), "Image Capture Failed", Toast.LENGTH_SHORT)
                     .show();
         }
-    }
-
-    /**
-     * Trap the captured image and save it to the share builder.
-     * @param selectedImageUri
-     */
-    protected void handleImageFileCaptured(Uri selectedImageUri){
-        Context context = getActivity().getBaseContext();
-        String path = selectedImageUri.toString();
     }
 
     /**
@@ -198,5 +212,35 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
     @Override
     public void onClick(View v) {
         dispatchTakePictureIntent();
+    }
+
+    /**
+     * Scale the photo down and fit it to our image views.
+     *
+     * "Drastically increases performance" to set images using this technique.
+     * Read more:http://developer.android.com/training/camera/photobasics.html
+     */
+    private void setFullImageFromFilePath(String imagePath) {
+        // Get the dimensions of the View
+        int targetW = mImageView.getWidth();
+        int targetH = mImageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
+        mImageView.setImageBitmap(bitmap);
     }
 }

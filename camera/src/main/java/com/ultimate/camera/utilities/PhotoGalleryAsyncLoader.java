@@ -36,6 +36,9 @@ import com.ultimate.camera.adapters.items.PhotoItem;
 import java.util.List;
 
 /**
+ * AsyncTask loader used to load image resources in the background of a fragment.
+ * Reference: http://developer.android.com/reference/android/content/AsyncTaskLoader.html
+ *
  * Created by Rex St. John (on behalf of AirPair.com) on 3/4/14.
  */
 public class PhotoGalleryAsyncLoader extends AsyncTaskLoader<List<PhotoItem>> {
