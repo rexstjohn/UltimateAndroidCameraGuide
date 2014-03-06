@@ -46,6 +46,7 @@ import android.widget.Toast;
 
 import com.ultimate.camera.R;
 import com.ultimate.camera.activities.CameraActivity;
+import com.ultimate.camera.utilities.ImageUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -124,7 +125,7 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
         // Check if there is a camera.
         Context context = getActivity();
         PackageManager packageManager = context.getPackageManager();
-        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false){
             Toast.makeText(getActivity(), "This device does not have a camera.", Toast.LENGTH_SHORT)
                     .show();
             return;
@@ -148,7 +149,9 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                activity.setCapturedImageURI(Uri.fromFile(photoFile));
+                Uri fileUri = Uri.fromFile(photoFile);
+                activity.setCapturedImageURI(fileUri);
+                activity.setCurrentPhotoPath(fileUri.getPath());
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         activity.getCapturedImageURI());
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -168,13 +171,9 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
             addPhotoToGallery();
             CameraActivity activity = (CameraActivity)getActivity();
 
-            // Show the thumbnail.
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mThumbnailImageView.setImageBitmap(imageBitmap);
-
             // Show the full sized image.
-            setFullImageFromFilePath(activity.getCurrentPhotoPath());
+            setFullImageFromFilePath(activity.getCurrentPhotoPath(), mImageView);
+            setFullImageFromFilePath(activity.getCurrentPhotoPath(), mThumbnailImageView);
         } else {
             Toast.makeText(getActivity(), "Image Capture Failed", Toast.LENGTH_SHORT)
                     .show();
@@ -233,10 +232,10 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
      * "Drastically increases performance" to set images using this technique.
      * Read more:http://developer.android.com/training/camera/photobasics.html
      */
-    private void setFullImageFromFilePath(String imagePath) {
+    private void setFullImageFromFilePath(String imagePath, ImageView imageView) {
         // Get the dimensions of the View
-        int targetW = mImageView.getWidth();
-        int targetH = mImageView.getHeight();
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -254,6 +253,6 @@ public class SimpleCameraIntentFragment extends BaseFragment implements Button.O
         bmOptions.inPurgeable = true;
 
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
-        mImageView.setImageBitmap(bitmap);
+        imageView.setImageBitmap(bitmap);
     }
 }
