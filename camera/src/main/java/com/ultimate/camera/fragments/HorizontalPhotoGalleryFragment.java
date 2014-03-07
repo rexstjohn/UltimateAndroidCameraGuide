@@ -79,6 +79,7 @@ public class HorizontalPhotoGalleryFragment extends SimplePhotoGalleryListFragme
         mEmptyTextView = (TextView)view.findViewById(R.id.empty);
         mHorizontalListView = (TwoWayView)  view.findViewById(R.id.horizontalList);
         mHorizontalListView.setAdapter(mAdapter);
+        mHorizontalListView.setItemMargin(10);
 
         resolveEmptyText();
 
