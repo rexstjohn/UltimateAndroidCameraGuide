@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ultimate.camera.R;
+import com.ultimate.camera.utilities.DialogHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -91,16 +92,10 @@ public class NativeCameraFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  null;
-        view = inflater.inflate(R.layout.fragment_photo_picker, container, false);
-
-        // Create an instance of Camera
-        mCamera = getCameraInstance();
+        View view = inflater.inflate(R.layout.fragment_native_camera, container, false);
 
         // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(getActivity(), mCamera);
-        FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
+        safeCameraOpenInView(view);
 
         Button captureButton = (Button) view.findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
@@ -116,12 +111,14 @@ public class NativeCameraFragment extends BaseFragment {
         return view;
     }
 
-    private boolean safeCameraOpen(int id) {
+    private boolean safeCameraOpenInView(View view) {
         boolean qOpened = false;
         releaseCameraAndPreview();
         mCamera = getCameraInstance();
         qOpened = (mCamera != null);
-        mPreview = new CameraPreview(getActivity(),mCamera);
+        mPreview = new CameraPreview(getActivity().getBaseContext(), mCamera);
+        FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
         return qOpened;
     }
 
@@ -140,14 +137,30 @@ public class NativeCameraFragment extends BaseFragment {
         return c; // returns null if camera is unavailable
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        releaseCameraAndPreview();
+    }
+
     /**
      * Clear any existing preview / camera.
      */
     private void releaseCameraAndPreview() {
-        mPreview.mCamera = null;
+
         if (mCamera != null) {
+            mCamera.stopPreview();
             mCamera.release();
             mCamera = null;
+        }
+        if(mPreview != null){
+            mPreview.destroyDrawingCache();
+            mPreview.mCamera = null;
         }
     }
 
@@ -259,6 +272,8 @@ public class NativeCameraFragment extends BaseFragment {
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_"+ timeStamp + ".jpg");
+
+        DialogHelper.showDialog( "Success!","Your picture has been saved!",getActivity());
 
         return mediaFile;
     }
