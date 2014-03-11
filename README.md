@@ -17,3 +17,7 @@ Includes examples on how to..
 <li>Use Androids gallery to "Select" a single image</li>
 <li>Display images in a horizontal list form</li>
 </ul>
+
+INSTRUCTIONS
+
+Download / clone. Open in Android Studio. Run. The end.
