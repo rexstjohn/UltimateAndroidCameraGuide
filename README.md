@@ -24,7 +24,11 @@ Download / clone. Open in Android Studio. Run. The end.
 
 ATTRIBUTION
 
-This project makes use of source code snippets provided by Google's Android development portal and TwoWayView by Lucas Rocha: https://github.com/lucasr/twoway-view. 
+This project makes use of source code snippets provided by Google's Android development portal and TwoWayView by Lucas Rocha: https://github.com/lucasr/twoway-view. Certain code portions are derived partially from results found on StackOverflow during research:
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/4484158/list-all-camera-images-in-android">List all camera images in Android</a></li>
+</ul>
 
 LICENSE
 
