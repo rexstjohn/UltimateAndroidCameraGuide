@@ -22,7 +22,7 @@
   ~ THE SOFTWARE.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -34,12 +34,19 @@
         android:layout_weight="1"
         />
 
-    <Button
-        android:id="@+id/button_capture"
-        android:text="Capture"
-        android:layout_width="fill_parent"
+
+    <RelativeLayout
+        android:id="@+id/innerRelativeLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        />
-</LinearLayout>
+        android:layout_alignParentBottom="true" >
+        <Button
+            android:id="@+id/button_capture"
+            android:text="Capture"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="bottom"
+            />
+    </RelativeLayout>
+</RelativeLayout>
