@@ -111,6 +111,7 @@ public class NativeCameraFragment extends BaseFragment {
             return view;
         }
 
+        // Trap the capture button.
         Button captureButton = (Button) view.findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -264,6 +265,7 @@ public class NativeCameraFragment extends BaseFragment {
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
                 mCamera.setParameters(parameters);
             }
+
             requestLayout();
         }
 
@@ -308,8 +310,12 @@ public class NativeCameraFragment extends BaseFragment {
             // stop preview before making changes
             try {
                 Camera.Parameters parameters = mCamera.getParameters();
-                Camera.Size previewSize = mPreviewSize;
-                parameters.setPreviewSize(previewSize.width, previewSize.height);
+
+                // Preview size must exist.
+                if(mPreviewSize != null) {
+                    Camera.Size previewSize = mPreviewSize;
+                    parameters.setPreviewSize(previewSize.width, previewSize.height);
+                }
 
                 mCamera.setParameters(parameters);
                 mCamera.startPreview();
