@@ -312,6 +312,9 @@ public class NativeCameraFragment extends BaseFragment {
             try {
                 Camera.Parameters parameters = mCamera.getParameters();
 
+                // Set the auto-focus mode to "continuous"
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+
                 // Preview size must exist.
                 if(mPreviewSize != null) {
                     Camera.Size previewSize = mPreviewSize;
@@ -468,7 +471,6 @@ public class NativeCameraFragment extends BaseFragment {
 
         if (! mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
-                //
                 Log.d("Camera Guide", "Required media storage does not exist");
                 return null;
             }
