@@ -255,6 +255,7 @@ public class NativeCameraFragment extends BaseFragment {
          */
         private void setCamera(Camera camera)
         {
+            // Source: http://stackoverflow.com/questions/7942378/android-camera-will-not-work-startpreview-fails
             mCamera = camera;
             mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
             mSupportedFlashModes = mCamera.getParameters().getSupportedFlashModes();
@@ -332,6 +333,7 @@ public class NativeCameraFragment extends BaseFragment {
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {
+            // Source: http://stackoverflow.com/questions/7942378/android-camera-will-not-work-startpreview-fails
             final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
             final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
             setMeasuredDimension(width, height);
@@ -352,15 +354,15 @@ public class NativeCameraFragment extends BaseFragment {
         @Override
         protected void onLayout(boolean changed, int left, int top, int right, int bottom)
         {
-            if (changed)
-            {
+            // Source: http://stackoverflow.com/questions/7942378/android-camera-will-not-work-startpreview-fails
+            if (changed) {
                 final int width = right - left;
                 final int height = bottom - top;
 
                 int previewWidth = width;
                 int previewHeight = height;
-                if (mPreviewSize != null)
-                {
+
+                if (mPreviewSize != null){
                     Display display = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
                     switch (display.getRotation())
@@ -400,6 +402,7 @@ public class NativeCameraFragment extends BaseFragment {
          */
         private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int width, int height)
         {
+            // Source: http://stackoverflow.com/questions/7942378/android-camera-will-not-work-startpreview-fails
             Camera.Size optimalSize = null;
 
             final double ASPECT_TOLERANCE = 0.1;
@@ -445,7 +448,6 @@ public class NativeCameraFragment extends BaseFragment {
                 fos.close();
 
                 // Restart the camera preview.
-                releaseCameraAndPreview();
                 safeCameraOpenInView(mCameraView);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
